@@ -1,0 +1,3 @@
+{
+  "entrypoint": "./orchestrator/build/index.html"
+}

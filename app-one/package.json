@@ -1,0 +1,17 @@
+{
+  "name": "micro-frontends-demo-app-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "emoji-slider": "^0.2.0",
+    "lit-element": "^2.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "tsc && cp index.html build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kito D. Mann (virtua.tech)",
+  "license": "MIT"
+}

@@ -1,0 +1,21 @@
+{
+  "entrypoint": "./index.html",
+  "npm": true,
+  "moduleResolution": "node",
+  "root": "build",
+  "extraDependencies": [
+    "robots.txt",
+    "node_modules/@webcomponents/webcomponentsjs/**"
+  ],
+
+  "builds": [
+    {
+      "bundle": true,
+      "js": {
+        "minify": false
+      },
+      "addServiceWorker": false,
+      "addPushManifest": true
+    }
+  ]
+}
