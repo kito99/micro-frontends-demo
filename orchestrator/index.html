@@ -29,8 +29,6 @@
             text-decoration: none;
         }
     </style>
-    <script src="http://unpkg.com/h-include/lib/h-include.js"/>
-    <script src="http://unpkg.com/h-include/lib/h-include-extensions.js"/>
 </head>
 
 <body>
@@ -41,14 +39,17 @@
     <a href="/app-one">App One</a>
     <a href="/app-two">App Two</a>
     <a href="/app-three">App Three</a>
-    <a href="/app-four">App Four</a>
 </div>
 
 <div id="outlet">
 </div>
 
 <script type="module">
-    import {Router} from '/orchestrator/node_modules/@vaadin/router/dist/vaadin-router.min.js';
+
+    // In a real app, this functionality might be encapsulated into a web component or at least another JS file,
+    // and routes may be separated out into another file and loaded dynamically by the router.
+
+    import {Router} from 'https://unpkg.com/@vaadin/router/dist/vaadin-router.min.js';
 
     const outlet = document.getElementById('outlet');
     const router = new Router(outlet);
@@ -78,18 +79,7 @@
             action: async () => {
                 await import('/app-three/elements/app-three.js');
             }
-        },
-        {
-            path: '/app-four',
-            component: 'x-fragment',
-            action: async (context, commands) => {
-                await import('/orchestrator/build/fragment.js');
-                let el = commands.component('x-fragment');
-                el.src = '/orchestrator/test.html';
-                return el;
-            }
         }
-
     ]);
 </script>
 

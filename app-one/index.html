@@ -2,23 +2,17 @@
 
 <html lang="en">
 <head>
-    <!-- Load components via WebComponents.waitFor -->
-    <script type="module" src="./build/app-1.js">
+    <script type="module" src="./build/app-one.js">
     </script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta charset="UTF-8">
 </head>
 <body>
 
-<!--
-  To configure starting state of the checkbox from markup:
-  <start-lit-element pie="true">
--->
-
-<x-app-1>
+<x-app-one>
     <!-- Placeholders to improve time to first paint -->
-    <h1>Start LitElement!</h1>
-    <p>Hello World from LitElement</p>
+    <h1>App One</h1>
+    <p>Hello World from App One</p>
 
     <!-- Check for JavaScript -->
     <p id="jsyes"></p>
@@ -28,5 +22,5 @@
     <noscript>
         Could not render the custom element. Check that JavaScript is enabled.
     </noscript>
-</x-app-1>
+</x-app-one>
 </body>

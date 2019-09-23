@@ -6,13 +6,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 @Named
 @ApplicationScoped
-public class    WidgetService implements Serializable {
+public class WidgetService implements Serializable {
 
     private static final long serialVersionUID = -4333931883643833214L;
     private List<Widget> widgets;
@@ -20,7 +19,7 @@ public class    WidgetService implements Serializable {
     public List<Widget> getWidgets(String type, long size) {
         if (widgets == null || widgets.size() != size - 2) {
             Random random = new Random();
-            widgets = new ArrayList<Widget>();
+            widgets = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 Widget widget = new Widget();
                 String widgetNameSuffix = " Widget " + i;
@@ -33,7 +32,7 @@ public class    WidgetService implements Serializable {
                 widget.setSize(100 + i);
                 widget.setUnitsSold(Math.abs(random.nextInt()));
                 widgets.add(widget);
-                List<Widget> relatedWidgets = new ArrayList<Widget>();
+                List<Widget> relatedWidgets = new ArrayList<>();
                 for (int x = 0; x < 2; x++) {
                     Widget relatedWidget = new Widget();
                     relatedWidget.setName("Related Widget " + x);
@@ -50,13 +49,6 @@ public class    WidgetService implements Serializable {
 
     public List<Widget> getWidgets(long size) {
         return getWidgets(null, size);
-    }
-
-    public Widget findWidget(String id) {
-        if (widgets == null) {
-            widgets = getWidgets(500);
-        }
-        return widgets.stream().filter((widget) -> widget.getName().equals(widget.getName())).findFirst().get();
     }
 
     public void add(Widget widget) {

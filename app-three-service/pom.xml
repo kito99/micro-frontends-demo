@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>virtua</groupId>
   <artifactId>app-three-service</artifactId>
-  <version>1.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <properties>
     <final.name>app-three-service</final.name>

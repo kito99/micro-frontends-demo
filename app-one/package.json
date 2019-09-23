@@ -1,6 +1,6 @@
 {
-  "name": "micro-frontends-demo-app-1",
-  "version": "1.0.0",
+  "name": "micro-frontends-demo-app-one",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -9,7 +9,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "build": "tsc && cp index.html build",
+    "build": "rm -rf build && tsc",
+    "start": "polymer serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kito D. Mann (virtua.tech)",

@@ -8,6 +8,7 @@ const concat = require('concat');
   const rootFolder = './dist/app-three';
   const destFolder = './elements';
   const files = [
+
     `${rootFolder}/runtime-es2015.js`,
     `${rootFolder}/polyfills-es2015.js`,
     `${rootFolder}/main-es2015.js`,
