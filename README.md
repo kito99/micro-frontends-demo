@@ -8,7 +8,7 @@ _Micro Front Ends: Breaking Up the Front-End Monolith_ ([slides](https://virtua.
 ([mind map](https://www.mindmeister.com/1229898832)) by Kito D. Mann ([@kito99](https://twitter.com/kito99)), 
 Principal Consultant at [virtua.tech](http://virtua.tech).
 
-![Demo](microfrontends-demo.gif)
+![Demo](./microfrontends-demo.gif)
 
 There are several sub-projects in this repo:
 
