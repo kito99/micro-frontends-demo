@@ -8,21 +8,23 @@
 
 First, make sure you have the pre-requisites installed:
 
-* Node
-* Git
-* Java SDK 11 or higher
-* Maven
+* Node (https://nodejs.org/)
+* Git (https://git-scm.com/downloads)
+* Java SDK 11 or higher (https://adoptopenjdk.net/)
+* Maven (https://maven.apache.org/download.cgi)
+
+We also recommend using either the Git Bash Shell or the Windows Subsystem for Linux if you're on Windows.
 
 == Checkout the repo
 
-Clone the micro-frontends-lab-starter repo from github:
+Clone the `micro-frontends-lab` repo from github:
 
 ----
 git clone https://github.com/kito99/micro-frontends-lab.git
 ----
 
 Read the link:README.md[README file] for an overview of the project (don't follow the "Running" instructions quite yet).
-In this lab, we will build the  `orchestrator` and setup express to serve the different micro frontends.
+In this lab, we will build the Orchestrator and setup Express to serve the different micro frontends.
 
 == Client side integration
 
@@ -30,7 +32,7 @@ In this lab, we will build the  `orchestrator` and setup express to serve the di
 
 == Create the Orchestrator
 
-The Orchestrator is a simple bit of cosde that can route between different Web Components that are lazy-loaded.
+The Orchestrator is a simple bit of code that can route between different Web Components that are lazy-loaded.
 Each of these Web Components can be a separate micro frontend built using different technologies, but wrapped in a Web Component.
 
 The Orchestrator is written using pure JavaScript and the Vaadin Router.
@@ -94,7 +96,7 @@ Add the following to the `<head>` of the document:
 
 === Setup Express
 
-In order to work with the orchestrator, we need a static web server, preferably one that supports server-side includes.
+In order to work with the Orchestrator, we need a static web server, preferably one that supports server-side includes.
 In the real world, this might be Ngnix, Apache, or a content-delivery network (like Akamai) or a caching proxy server (like Varnish or Squid).
 For our purposes, we'll use Express.
 
@@ -269,9 +271,9 @@ Change to the `app-three` folder and follow the instructions in the README for b
 Once this is complete, there should be a bundle in the `app-three/elements` folder ready to be loaded by the Orchestrator.
 
 [NOTE]
-----
+====
 Don't build `app-three-service` yet; we'll do that later.
-----
+====
 
 === Add the app to the router
 
@@ -288,12 +290,12 @@ Change back to the `orchestrator` folder and add the new route to `index.html` i
         }
 ----
 
-Here, we're mapping the route to a specific web component called `x-app-three`, which we are loading asynchronously from the location `/app/two/app-three.js`.
+Here, we're mapping the route to a specific web component called `x-app-three`, which we are loading asynchronously from the location `/app/three/app-three.js`.
 Once the component is loaded, its contents will be placed inside the outlet.
 
 === Add the app to the Express
 
-Next, we need to update `server.js` to handle the route `/app/two/app-three.js`.
+Next, we need to update `server.js` to handle the route `/app/three/app-three.js`.
 Change to the root folder and add the following to `server.js` _before_ the last route:
 
 [source,language="javascript",indent=0]
@@ -326,4 +328,4 @@ Now, when you re-load the page, you should see actual data in the App Three:
 image::orchestrator-app-three.png[]
 
 __Congrats!
-You have finished creating a Micro frontend orchestator using Web Components!)__
+You have finished creating a micro frontend orchestator using Web Components!)__
