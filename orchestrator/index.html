@@ -63,21 +63,21 @@
             path: '/app-one',
             component: 'x-app-one',
             action: async () => {
-                await import('/app-one/build/app-one.js');
+                await import('/app/one/app-one.js');
             }
         },
         {
             path: '/app-two',
             component: 'x-app-two',
             action: async () => {
-                await import('/app-two/elements/app-two.js');
+                await import('/app/two/app-two.js');
             }
         },
         {
             path: '/app-three',
             component: 'x-app-three',
             action: async () => {
-                await import('/app-three/elements/app-three.js');
+                await import('/app/three/app-three.js');
             }
         }
     ]);

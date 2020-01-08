@@ -1,0 +1,329 @@
+:imagesdir: images
+
+= Micro Frontends Lab
+
+== Getting Started
+
+== Install the Pre-requisites
+
+First, make sure you have the pre-requisites installed:
+
+* Node
+* Git
+* Java SDK 11 or higher
+* Maven
+
+== Checkout the repo
+
+Clone the micro-frontends-lab-starter repo from github:
+
+----
+git clone https://github.com/kito99/micro-frontends-lab.git
+----
+
+Read the link:README.md[README file] for an overview of the project (don't follow the "Running" instructions quite yet).
+In this lab, we will build the  `orchestrator` and setup express to serve the different micro frontends.
+
+== Client side integration
+
+:sectnums:
+
+== Create the Orchestrator
+
+The Orchestrator is a simple bit of cosde that can route between different Web Components that are lazy-loaded.
+Each of these Web Components can be a separate micro frontend built using different technologies, but wrapped in a Web Component.
+
+The Orchestrator is written using pure JavaScript and the Vaadin Router.
+To begin, change into the
+`orchestrator` folder.
+This folder contains a README, a basic `package.json`, a shell index.htnml.
+
+=== Add navigation links
+
+Let's start by adding some links to index.html to support our micro frontends.
+Place the follow code in the `<body>` of the file:
+
+[source,language="html",indent=0]
+----
+<div id="navigation">
+    <a href="/app-one">App One</a>
+    <a href="/app-two">App Two</a>
+    <a href="/app-three">App Three</a>
+</div>
+
+<div id="outlet">
+</div>
+----
+
+Here we've specified links for the different micro frontends, as well as an outlet where the router will render the selected app.
+
+=== Add CSS
+
+Let's make things look a little better.
+Add the following to the `<head>` of the document:
+
+[source,language="html",indent=0]
+----
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-size: 14px;
+            color: #333;
+            line-height: 24px;
+        }
+
+        #outlet {
+            margin: 20px;
+            border-radius: 4px;
+            border: 1px solid #eee;
+            background-color: #fafafa;
+            padding: 16px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        #navigation > a {
+            padding: 5px;
+            color: #ffffff;
+            border-radius: 4px;
+            border: 1px solid #eee;
+            background-color: #007ad9;
+            text-decoration: none;
+        }
+    </style>
+----
+
+=== Setup Express
+
+In order to work with the orchestrator, we need a static web server, preferably one that supports server-side includes.
+In the real world, this might be Ngnix, Apache, or a content-delivery network (like Akamai) or a caching proxy server (like Varnish or Squid).
+For our purposes, we'll use Express.
+
+=== Install packages
+
+First, change to the root folder of the project and run `npm install express`.
+
+=== Create server.js
+
+Create a new file called `server.js` with the following code:
+
+[source,language="javascript",indent=0]
+----
+var express = require('express');
+
+var app = express();
+
+// Add routes to micro-frontends here
+app.use('*', express.static('orchestrator', {index: "index.html"}));
+
+app.listen(8000);
+----
+
+This routes all pages to our main Orchestrator page.
+
+=== Run Express
+
+Now, let's run the server and view our page.
+Run the command `node server.js` and point your browser to http://localhost:8000/.
+You should see a simple page like the one below.
+
+image::orchestrator-blank.png[]
+
+Clicking on a link should just reload the page.
+
+=== Add the Vaadin Router
+
+Next, let's add the Vaadin Router so that the Orchestrator can dynamically load different micro frontends.
+Read the https://vaadin.com/router[Vaadin Router docs] for more information about the router.
+Change to the `orchestrator` folder.
+
+Inside `index.html`, add the following code at the _end_ of the `<body>`:
+
+[source,language="html",indent=0]
+----
+<script type="module">
+    import {Router} from 'https://unpkg.com/@vaadin/router/dist/vaadin-router.min.js';
+
+    const outlet = document.getElementById('outlet');
+    const router = new Router(outlet);
+
+    router.setRoutes([
+        {
+            path: '/',
+            redirect: '/app-one'
+        }
+     ]);
+</script>
+----
+
+First, note that we're using native JavaScript modules.
+These are supported in all evergreen browsers.
+We're loading the Vaadin Router from unpkg.com, but this could just as easily be installed locally via an npm package.
+
+All this code does is wire up the `<div>` with the `id` "outlet" to the router, and map the root path to the micro frontend called  `app-one`.
+
+[NOTE]
+====
+In a real app, this might be encapsulated into a web component (or at least a separate JS file) and routes may be separated out into another file and loaded dynamically by the router.
+====
+
+When you reload the page, it should work basically the same, except that when you click on a link, it won't reload the page.
+Instead, you'll see an error message from the Vaadin Router in the console complaining that the routes are not defined.
+We'll handle that next.
+
+== Integrate App One
+
+=== Build the app
+
+Change to the `app-one` folder and follow the instructions in the README for building the app.
+Once this is complete, there should be a bundle in the `app-one/build` folder ready to be loaded by the Orchestrator.
+
+=== Add the app to the router
+
+Change back to the `orchestrator` folder and add the new route to `index.html` inside of the array passed to `router.setRoutes()`:
+
+[source,language="javascript",indent=0]
+----
+        {
+            path: '/app-one',
+            component: 'x-app-one',
+            action: async () => {
+                await import('/app/one/app-one.js');
+            }
+        },
+----
+
+Here, we're mapping the route to a specific web component called `x-app-one`, which we are loading asynchronously from the location `/app/one/app-one.js`.
+Once the component is loaded, its contents will be placed inside the outlet.
+
+=== Add the app to the Express
+
+Next, we need to update `server.js` to handle the route  `/app/one/app-one.js`.
+Change to the root folder and add the following to `server.js` _before_ the last route:
+
+[source,language="javascript",indent=0]
+----
+app.use('/app/one', express.static('app-one/build'));
+----
+
+=== Run Express
+
+Now, let's run the server and view our page.
+Kill node (control-C), restart it with the command `node server.js`, and point your browser to http://localhost:8000/.
+You should now see `app-one` embedded inside of the page:
+
+image::orchestrator-app-one.png[]
+
+Clicking on the other app links should display a blank outlet, as before.
+
+== Integrate App Two
+
+=== Build the app
+
+Change to the `app-two` folder and follow the instructions in the README for building the app.
+Once this is complete, there should be a bundle in the `app-two/elements` folder ready to be loaded by the Orchestrator.
+
+=== Add the app to the router
+
+Change back to the `orchestrator` folder and add the new route to `index.html` inside of the array passed to `router.setRoutes()`:
+
+[source,language="javascript",indent=0]
+----
+        {
+            path: '/app-two',
+            component: 'x-app-two',
+            action: async () => {
+                await import('/app/two/app-two.js');
+            }
+        },
+----
+
+Here, we're mapping the route to a specific web component called `x-app-two`, which we are loading asynchronously from the location `/app/two/app-two.js`.
+Once the component is loaded, its contents will be placed inside the outlet.
+
+=== Add the app to the Express
+
+Next, we need to update `server.js` to handle the route `/app/two/app-two.js`.
+Change to the root folder and add the following to `server.js` _before_ the last route:
+
+[source,language="javascript",indent=0]
+----
+app.use('/app/two', express.static('app-two/elements'));
+----
+
+=== Run Express
+
+Now, let's run the server and view our page.
+Kill node (control-C), restart it with the command `node server.js`, and point your browser to http://localhost:8000/.
+Click on the App Two link.
+You should now see `app-two` embedded inside of the page:
+
+image::orchestrator-app-two.png[]
+
+The App One link should work just as before, and the App Three link should display a blank outlet.
+
+== Integrate App Three
+
+=== Build the app
+
+Change to the `app-three` folder and follow the instructions in the README for building the app.
+Once this is complete, there should be a bundle in the `app-three/elements` folder ready to be loaded by the Orchestrator.
+
+[NOTE]
+----
+Don't build `app-three-service` yet; we'll do that later.
+----
+
+=== Add the app to the router
+
+Change back to the `orchestrator` folder and add the new route to `index.html` inside of the array passed to `router.setRoutes()`:
+
+[source,language="javascript",indent=0]
+----
+        {
+            path: '/app-three',
+            component: 'x-app-three',
+            action: async () => {
+                await import('/app/three/app-three.js');
+            }
+        }
+----
+
+Here, we're mapping the route to a specific web component called `x-app-three`, which we are loading asynchronously from the location `/app/two/app-three.js`.
+Once the component is loaded, its contents will be placed inside the outlet.
+
+=== Add the app to the Express
+
+Next, we need to update `server.js` to handle the route `/app/two/app-three.js`.
+Change to the root folder and add the following to `server.js` _before_ the last route:
+
+[source,language="javascript",indent=0]
+----
+app.use('/app/three', express.static('app-three/elements'));
+----
+
+=== Run Express
+
+Now, let's run the server and view our page.
+Kill node (control-C), restart it with the command `node server.js`, and point your browser to http://localhost:8000/.
+Click on the App Two link.
+You should now see `app-three` embedded inside of the page:
+
+image::orchestrator-app-three-no-server.png[]
+
+All three links should work now, but noticeably App Three has no data.
+Let's handle that next.
+
+=== Launch the App Three microservice
+
+Unlike the other sample apps, App Three actually has a microservice back-end.
+In order to launch it, change into the
+`app-three-server` folder and follow the instructions in the README file.
+
+=== Reload the page
+
+Now, when you re-load the page, you should see actual data in the App Three:
+
+image::orchestrator-app-three.png[]
+
+__Congrats!
+You have finished creating a Micro frontend orchestator using Web Components!)__

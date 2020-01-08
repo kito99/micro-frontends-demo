@@ -1,0 +1,10 @@
+{
+  "name": "micro-frontends-orchestrator",
+  "version": "0.0.1",
+  "description": "Orchestrator for micro frontend demo.",
+  "main": "index.html",
+  "devDependencies": {
+    "express": "^4.17.1"
+  },
+  "license": "MIT"
+}
