@@ -37,23 +37,23 @@ First, make sure you have Node (for JS/TS) and Maven (for Java) installed.
 
 1. Download dependencies and build each app as described in the individual README located in the app's folder.
 2. Run `app-three-service` as described in the project's README.
-3. Run a web server from the root folder, and point it to `orchestrator/index.html`. For simplicity, I 
-recommend using the polymer CLI's web server. There is already a `polymer.json` file in the root folder
-that uses `orchestrator/index.html` as the default file.
+3. Run a web server from the root folder, and point it to `orchestrator/index.html`. For simplicity, the project
+includes express, which can be used to serve the app.
 
-If you haven't already, install it globally:
+To setup express, install the dependencies:
     
 ```
- npm install -g polymer-cli
+ npm install 
 ```
 
 Then run the server:
 
 ```
 cd <root folder of this repo>
-polymer serve
+node server.js
 ```
-And point your browser to the URL indicated (usually `http://127.0.0.1:8081`).
+And point your browser to the URL indicated (usually `http://127.0.0.1:8000`).
 
-> Technically, all of these apps could run on separate servers (assuming 
-[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers are returned).
+> Technically, all of these apps could run on separate servers (using  
+[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) headers) or be proxied through the main web server.
+
