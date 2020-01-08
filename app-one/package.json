@@ -2,16 +2,20 @@
   "name": "micro-frontends-demo-app-one",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.html",
   "dependencies": {
     "emoji-slider": "^0.2.0",
     "lit-element": "^2.2.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^7.0.0",
+    "es-dev-server": "^1.36.0",
+    "rollup": "^1.28.0"
+  },
   "scripts": {
-    "build": "rm -rf build && tsc",
-    "start": "polymer serve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rm -rf build && tsc && rollup --config",
+    "watch": "rollup --config --watch",
+    "start": "es-dev-server --port 7000 --watch --node-resolve"
   },
   "author": "Kito D. Mann (virtua.tech)",
   "license": "MIT"

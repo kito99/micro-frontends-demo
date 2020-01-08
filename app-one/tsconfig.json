@@ -7,7 +7,6 @@
     "module": "es2015",
     "moduleResolution": "node",
     "lib": ["es2017", "dom"],
-    "experimentalDecorators": true,
-    "outDir": "build"
+    "experimentalDecorators": true
   }
 }
