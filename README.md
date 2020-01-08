@@ -1,5 +1,7 @@
 # Micro frontends demo
 
+> For a lab version of the same project, see https://github.com/kito99/micro-frontends-lab.
+
 This is a simple application that demonstrates one approach to creating 
 [Micro frontends](https://martinfowler.com/articles/micro-frontends.html): 
 using [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components) to integrate different web apps. It was originally 
