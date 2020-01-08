@@ -11,12 +11,13 @@
     "@rollup/plugin-node-resolve": "^7.0.0",
     "@rollup/plugin-typescript": "^2.1.0",
     "es-dev-server": "^1.36.0",
+    "rimraf": "^3.0.0",
     "rollup": "^1.28.0",
     "tslib": "^1.10.0",
     "typescript": "^3.7.4"
   },
   "scripts": {
-    "build": "rm -rf build && rollup --config",
+    "build": "rimraf build && rollup --config",
     "watch": "rollup --config --watch",
     "start": "es-dev-server --port 7000 --watch --node-resolve"
   },

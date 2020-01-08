@@ -47,6 +47,7 @@
             </executions>
             <configuration>
               <payaraVersion>${payaraVersion}</payaraVersion>
+              <appendSystemProperties>false</appendSystemProperties>
             </configuration>
           </plugin>
         </plugins>
